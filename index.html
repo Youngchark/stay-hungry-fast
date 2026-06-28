@@ -278,6 +278,63 @@
   .bLabel { margin-top: 34px; font-family: var(--body); color: #8fc4e2; font-size: 15px; font-weight: 600; height: 1.4em; }
   .bDone { margin-top: 42px; font-family: var(--display); font-weight: 400; letter-spacing: 1px; background: linear-gradient(180deg, #5ec5f5, #0b6aa6); border: none; color: #fff; font-size: 16px; padding: 13px 28px; border-radius: 99px; cursor: pointer; text-transform: uppercase; }
   .bQuit { margin-top: 16px; font-family: var(--mono); background: transparent; border: none; color: #4d748c; font-size: 12px; cursor: pointer; letter-spacing: 1px; }
+
+  /* ---------- BODY / INSIDE YOU ---------- */
+  .bodyView {
+    position: fixed; inset: 0; z-index: 85; display: none; flex-direction: column;
+    padding: 20px clamp(16px, 4vw, 40px); overflow-y: auto;
+    background:
+      radial-gradient(ellipse 80% 50% at 50% 0%, rgba(255,59,31,.12), transparent 55%),
+      radial-gradient(ellipse 70% 50% at 50% 110%, rgba(240,176,66,.07), transparent 55%),
+      #0a0807;
+  }
+  .bodyView.show { display: flex; }
+  .bodyView::-webkit-scrollbar { width: 0; }
+  .bvHead { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; }
+  .bvTitle { font-family: var(--display); font-size: clamp(26px, 6vw, 44px); letter-spacing: 2px; }
+  .bvClose { background: rgba(255,255,255,.05); border: 1px solid var(--line); color: var(--ink); width: 38px; height: 38px; border-radius: 50%; font-size: 18px; cursor: pointer; }
+
+  .bvGrid { display: flex; gap: clamp(16px, 4vw, 40px); flex: 1; align-items: center; flex-wrap: wrap; justify-content: center; }
+  .figureWrap { position: relative; flex: 0 0 auto; display: flex; flex-direction: column; align-items: center; }
+  .figure { width: clamp(180px, 40vw, 260px); height: auto; }
+  #silhouette { fill: #18120f; stroke: rgba(255,255,255,.08); stroke-width: 1; }
+  .organ { fill: #2a201b; stroke: none; opacity: .35; transition: all .5s ease; }
+  .organ.lit { opacity: 1; filter: drop-shadow(0 0 10px var(--ember)); }
+  #z-blood { fill: none; stroke: #44322c; stroke-width: 2; opacity: .3; }
+  #z-blood.lit { stroke: var(--ember); opacity: 1; filter: drop-shadow(0 0 8px var(--ember)); }
+  #z-brain.lit, #z-liver.lit, #z-gut.lit, #z-heart.lit { fill: var(--ember); }
+  #z-fat.lit { fill: var(--gold); filter: drop-shadow(0 0 12px var(--gold)); }
+  #z-muscle.lit { fill: #ff7a52; }
+  .figure.shrink #z-fat { transform: scale(.62); transform-origin: 88px 150px; fill: var(--gold); }
+  .cell { fill: #5a4a42; transition: all .6s ease; }
+  .cell.bad { fill: var(--ember); }
+  .figure.autophagy .cell.bad { animation: dissolve 2.4s ease-in-out infinite; }
+  @keyframes dissolve { 0%{opacity:1; r:3.2;} 60%{opacity:.15; r:.6;} 100%{opacity:.15; r:.6;} }
+  .figure.autophagy .cell.good { fill: var(--good); }
+  .bvNow { margin-top: 10px; font-family: var(--mono); font-size: 12px; letter-spacing: 3px; color: var(--gold); }
+
+  .bvPanel { flex: 1 1 320px; max-width: 520px; }
+  .bvTimeline { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 16px; }
+  .bvTimeline button { font-family: var(--mono); font-size: 11px; padding: 7px 10px; border-radius: 99px; cursor: pointer;
+    background: rgba(255,255,255,.04); border: 1px solid var(--line); color: var(--muted); transition: all .2s; }
+  .bvTimeline button.cur { background: var(--ember); border-color: var(--ember); color: #fff; }
+  .bvTimeline button.now { box-shadow: 0 0 0 2px rgba(240,176,66,.6); }
+  .bvStageName { font-family: var(--display); font-size: clamp(24px, 5vw, 38px); letter-spacing: 1px; line-height: 1; }
+  .bvInside { font-family: var(--body); font-size: 15px; line-height: 1.6; color: #d8cfc6; margin: 12px 0 16px; }
+  .bvEffects { list-style: none; display: flex; flex-direction: column; gap: 8px; margin-bottom: 18px; }
+  .bvEffects li { font-family: var(--body); font-size: 14px; color: var(--muted); padding-left: 22px; position: relative; }
+  .bvEffects li::before { content: '✦'; position: absolute; left: 0; color: var(--gold); }
+  .bvBA { display: flex; align-items: stretch; gap: 10px; }
+  .ba { flex: 1; border: 1px solid var(--line); border-radius: 12px; padding: 12px; background: rgba(255,255,255,.02); }
+  .ba span { font-family: var(--mono); font-size: 10px; letter-spacing: 2px; color: var(--faint); display: block; margin-bottom: 6px; }
+  .ba b { font-family: var(--body); font-size: 13px; font-weight: 700; line-height: 1.4; }
+  .ba.before b { color: var(--muted); } .ba.after b { color: var(--good); }
+  .baArrow { display: flex; align-items: center; color: var(--ember); font-size: 22px; }
+
+  .bvFooter { margin-top: 18px; border-top: 1px solid var(--line); padding-top: 14px; }
+  .bvFooter p { font-family: var(--body); font-size: 13px; line-height: 1.6; color: var(--muted); max-width: 820px; }
+  .bvFooter p b { color: var(--ink); }
+  .bvFooter .disc { font-size: 11px; color: var(--faint); margin-top: 8px; }
 </style>
 </head>
 <body>
@@ -304,6 +361,7 @@
     </div>
 
     <div class="controls">
+      <button id="bodyBtn">🫀 BODY</button>
       <button id="voiceBtn" class="on">🔊 ON</button>
       <button id="pickBtn">VOICE: …</button>
       <button id="modeBtn">MODE: MIX</button>
@@ -337,6 +395,73 @@
 
   <!-- incoming banner -->
   <div class="incoming" id="incoming"></div>
+
+  <!-- ====== BODY / INSIDE YOU ====== -->
+  <div class="bodyView" id="bodyView">
+    <div class="bvHead">
+      <div class="bvTitle">INSIDE YOUR BODY</div>
+      <button class="bvClose" id="bvClose">✕</button>
+    </div>
+
+    <div class="bvGrid">
+      <!-- human figure -->
+      <div class="figureWrap">
+        <svg id="figure" viewBox="0 0 200 400" class="figure">
+          <!-- body silhouette -->
+          <g id="silhouette">
+            <circle cx="100" cy="44" r="26"/>
+            <path d="M74 70 Q100 84 126 70 L140 96 Q150 110 146 150 L138 150 Q140 120 132 104
+                     L132 200 Q132 240 124 300 L116 360 Q114 378 104 378 L96 378
+                     Q92 360 90 320 L88 220 L86 320 Q84 360 80 378 L72 378
+                     Q62 378 60 360 L52 300 Q44 240 44 200 L44 104 Q36 120 38 150 L30 150
+                     Q26 110 36 96 Z"/>
+          </g>
+          <!-- fat layer (belly) -->
+          <ellipse id="z-fat" class="organ" cx="88" cy="150" rx="40" ry="34"/>
+          <!-- muscle (limbs glow) -->
+          <g id="z-muscle" class="organ">
+            <path d="M132 110 L146 150 L138 150 L126 116 Z"/>
+            <path d="M44 110 L30 150 L38 150 L50 116 Z"/>
+            <path d="M104 300 L116 360 L104 360 Z"/><path d="M72 300 L60 360 L72 360 Z"/>
+          </g>
+          <!-- brain -->
+          <circle id="z-brain" class="organ" cx="100" cy="40" r="16"/>
+          <!-- bloodstream / immune -->
+          <g id="z-blood" class="organ">
+            <path d="M100 70 L100 200" /><path d="M100 110 L70 160"/><path d="M100 110 L130 160"/>
+            <path d="M100 150 L74 210"/><path d="M100 150 L126 210"/>
+          </g>
+          <!-- liver -->
+          <path id="z-liver" class="organ" d="M104 118 Q132 112 130 134 Q128 146 104 142 Z"/>
+          <!-- gut / stomach -->
+          <ellipse id="z-gut" class="organ" cx="92" cy="160" rx="22" ry="20"/>
+          <!-- heart -->
+          <path id="z-heart" class="organ" d="M100 104 q-9 -10 -16 -2 q-6 8 16 22 q22 -14 16 -22 q-7 -8 -16 2 z"/>
+          <!-- floating cells -->
+          <g id="cells"></g>
+        </svg>
+        <div class="bvNow" id="bvNow">HOUR 0</div>
+      </div>
+
+      <!-- detail panel -->
+      <div class="bvPanel">
+        <div class="bvTimeline" id="bvTimeline"></div>
+        <div class="bvStageName" id="bvStageName">—</div>
+        <div class="bvInside" id="bvInside">—</div>
+        <ul class="bvEffects" id="bvEffects"></ul>
+        <div class="bvBA">
+          <div class="ba before"><span>BEFORE</span><b id="bvBefore">—</b></div>
+          <div class="baArrow">→</div>
+          <div class="ba after"><span>AFTER</span><b id="bvAfter">—</b></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="bvFooter">
+      <p><b>The 72-hour payoff:</b> you burn fat, your cells clear out damaged parts (autophagy), and around 72h your body recycles old/damaged immune cells — so when you refeed, stem cells help rebuild a fresher immune system.</p>
+      <p class="disc">⚠️ General education, not medical advice. A 3-day fast isn't safe for everyone (diabetes, pregnancy, eating-disorder history, certain meds). Drink water + electrolytes, and <b>break the fast slowly</b> to avoid refeeding syndrome. Sources: USC/Longo (Cell Stem Cell, 2014), fasting-physiology reviews.</p>
+    </div>
+  </div>
 
   <!-- breathing overlay -->
   <div class="breathe" id="breathe">
@@ -808,6 +933,85 @@
   $('rideBtn').addEventListener('click', openBreathe);
   $('bDone').addEventListener('click', ()=>finishBreathe(true));
   $('bQuit').addEventListener('click', ()=>finishBreathe(false));
+
+  // ============ BODY / INSIDE YOU ============
+  const BODY_STAGES = [
+    { at:0,  label:'0–12h', name:'Running on food', zones:['gut','liver','heart'], shrink:false, auto:false,
+      inside:"You're still burning the food you ate and the sugar (glycogen) stored in your liver. Insulin is high — fat storage mode.",
+      effects:['Digestion finishing up','Liver glycogen burned for energy','Insulin still elevated'],
+      before:'Fuelled by food + stored sugar', after:'Sugar tank starting to drain' },
+    { at:12, label:'12–16h', name:'Fat-burning switch', zones:['fat','liver','brain'], shrink:true, auto:false,
+      inside:"Sugar stores run low, so your body flips to burning fat. The liver starts making ketones — clean fuel your brain runs great on.",
+      effects:['Fat cells release stored energy','Liver produces ketones','Steadier energy, fewer crashes'],
+      before:'Sugar-burner', after:'Fat-burner — ketosis beginning' },
+    { at:16, label:'16–24h', name:'Autophagy switches ON', zones:['cells','brain'], shrink:true, auto:true,
+      inside:"Autophagy literally means “self-eating.” Your cells start breaking down and recycling their own worn-out, damaged parts — internal spring cleaning.",
+      effects:['Damaged cell parts recycled','Old / dysfunctional components cleared','Brain cells (neuronal autophagy) join in'],
+      before:'Cells clogged with damaged parts', after:'Cells recycling & cleaning themselves' },
+    { at:24, label:'24h', name:'One day — HGH surge', zones:['muscle','fat'], shrink:true, auto:false,
+      inside:"Insulin hits its lowest point and growth hormone surges (up to ~20× in men) — protecting your muscle while you torch fat.",
+      effects:['Growth hormone spikes','Muscle protected from breakdown','Deep, efficient fat-burning'],
+      before:'Higher insulin, low fat-burn', after:'Max fat-burn, muscle-sparing' },
+    { at:48, label:'48h', name:'Deep clean', zones:['cells','blood'], shrink:true, auto:true,
+      inside:"Autophagy ramps up further and inflammation starts dropping. Your body recycles damaged and aged cells in bulk.",
+      effects:['Autophagy intensifies','Inflammation markers fall','Old / damaged cells broken down'],
+      before:'Inflamed, sluggish cells', after:'Leaner, cleaner cell population' },
+    { at:72, label:'72h', name:'Immune reset', zones:['blood','cells'], shrink:true, auto:true,
+      inside:"In Longo’s USC research, ~72h of fasting recycles old and damaged immune cells. When you refeed, stem cells fire up and rebuild a fresh immune system.",
+      effects:['Old / damaged immune cells cleared','IGF-1 & PKA drop — the regeneration signal','Refeeding → stem cells build new immune cells'],
+      before:'Aged, damaged immune cells', after:'Primed to rebuild a fresh immune system' },
+  ];
+  const ZMAP = { immune:'z-blood', blood:'z-blood', fat:'z-fat', muscle:'z-muscle', brain:'z-brain', liver:'z-liver', gut:'z-gut', heart:'z-heart' };
+
+  const figure = $('figure'), bodyView = $('bodyView');
+  // build floating cells inside the torso
+  (function makeCells(){
+    const g = $('cells'); let html = '';
+    const pts = [[72,118],[104,120],[64,142],[110,148],[82,138],[96,158],[70,170],[112,176],[88,186],[76,206],[104,206],[90,230]];
+    pts.forEach((p,i) => { const bad = i%3===0; html += `<circle class="cell ${bad?'bad':'good'}" cx="${p[0]}" cy="${p[1]}" r="3.2"/>`; });
+    g.innerHTML = html;
+  })();
+
+  function currentStageIdx() {
+    const hours = (Date.now() - me.start) / 3600000;
+    let idx = 0; BODY_STAGES.forEach((s,i) => { if (hours >= s.at) idx = i; });
+    return idx;
+  }
+  let bodySel = 0;
+  function renderBody(idx) {
+    bodySel = idx;
+    const s = BODY_STAGES[idx];
+    // highlight organs
+    document.querySelectorAll('.organ').forEach(o => o.classList.remove('lit'));
+    s.zones.forEach(z => { if (ZMAP[z]) $(ZMAP[z])?.classList.add('lit'); });
+    figure.classList.toggle('shrink', s.shrink);
+    figure.classList.toggle('autophagy', s.auto);
+    // text
+    $('bvStageName').textContent = s.name;
+    $('bvInside').textContent = s.inside;
+    $('bvEffects').innerHTML = s.effects.map(e => `<li>${e}</li>`).join('');
+    $('bvBefore').textContent = s.before;
+    $('bvAfter').textContent = s.after;
+    // timeline buttons
+    const cur = currentStageIdx();
+    document.querySelectorAll('#bvTimeline button').forEach((b,i) => {
+      b.classList.toggle('cur', i === idx);
+      b.classList.toggle('now', i === cur);
+    });
+    const hrs = Math.floor((Date.now() - me.start) / 3600000);
+    $('bvNow').textContent = `YOU'RE AT HOUR ${hrs}`;
+  }
+  function buildTimeline() {
+    $('bvTimeline').innerHTML = BODY_STAGES.map((s,i) => `<button data-i="${i}">${s.label}</button>`).join('');
+    $('bvTimeline').querySelectorAll('button').forEach(b => b.onclick = () => renderBody(+b.dataset.i));
+  }
+  function openBody() {
+    buildTimeline();
+    bodyView.classList.add('show');
+    renderBody(currentStageIdx());   // jump to where you actually are
+  }
+  $('bodyBtn').addEventListener('click', openBody);
+  $('bvClose').addEventListener('click', () => bodyView.classList.remove('show'));
 
   // GO
   boot();
