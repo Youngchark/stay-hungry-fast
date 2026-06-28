@@ -219,6 +219,8 @@
   .syncState { font-family: var(--mono); font-size: 10px; letter-spacing: 1px; margin: 6px 0 18px; }
   .syncState.live { color: var(--good); }
   .syncState.solo { color: var(--gold); }
+  .changeName { margin-top: 12px; width: 100%; font-family: var(--mono); font-size: 11px; letter-spacing: 1px; color: var(--muted); background: rgba(255,255,255,.03); border: 1px solid var(--line); border-radius: 10px; padding: 9px; cursor: pointer; }
+  .changeName:hover { color: var(--ink); border-color: rgba(255,59,31,.4); }
 
   .board { list-style: none; display: flex; flex-direction: column; gap: 9px; }
   .row {
@@ -399,6 +401,7 @@
     <div class="arenaHead">🏆 ARENA <button class="close" id="arenaClose">✕</button></div>
     <div class="syncState solo" id="syncState">● solo mode</div>
     <ul class="board" id="board"></ul>
+    <button class="changeName" id="changeName">✎ change my name / fresh start</button>
 
     <div class="msgZone">
       <div class="msgHead">Send hype 💬</div>
@@ -828,6 +831,13 @@
   function toggleArena(open){ $('arena').classList.toggle('open', open); }
   $('arenaToggle').addEventListener('click', () => toggleArena(!$('arena').classList.contains('open')));
   $('arenaClose').addEventListener('click', () => toggleArena(false));
+  $('changeName').addEventListener('click', () => {
+    if (!confirm('Start fresh? This clears your name, timer and stats on this device.')) return;
+    if (synced && db && me) db.ref('fasters/' + keyFor(me.name)).remove();   // remove old profile from the arena
+    localStorage.removeItem('me');
+    localStorage.removeItem('lastWater');
+    location.reload();                                                        // back to the Enter Name screen
+  });
 
   // ============ VOICE ============
   let voices = [], voiceIdx = 0;
