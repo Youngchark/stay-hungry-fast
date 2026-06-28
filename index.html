@@ -294,6 +294,9 @@
   .bvTitle { font-family: var(--display); font-size: clamp(26px, 6vw, 44px); letter-spacing: 2px; }
   .bvClose { background: rgba(255,255,255,.05); border: 1px solid var(--line); color: var(--ink); width: 38px; height: 38px; border-radius: 50%; font-size: 18px; cursor: pointer; }
 
+  .bvIntro { font-family: var(--body); font-size: 13.5px; line-height: 1.65; color: var(--muted); background: rgba(255,255,255,.025); border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px; margin-bottom: 16px; max-width: 900px; }
+  .bvIntro b { color: var(--gold); }
+
   .bvGrid { display: flex; gap: clamp(16px, 4vw, 40px); flex: 1; align-items: center; flex-wrap: wrap; justify-content: center; }
   .figureWrap { position: relative; flex: 0 0 auto; display: flex; flex-direction: column; align-items: center; }
   .figure { width: clamp(180px, 40vw, 260px); height: auto; }
@@ -320,7 +323,21 @@
   .bvTimeline button.cur { background: var(--ember); border-color: var(--ember); color: #fff; }
   .bvTimeline button.now { box-shadow: 0 0 0 2px rgba(240,176,66,.6); }
   .bvStageName { font-family: var(--display); font-size: clamp(24px, 5vw, 38px); letter-spacing: 1px; line-height: 1; }
-  .bvInside { font-family: var(--body); font-size: 15px; line-height: 1.6; color: #d8cfc6; margin: 12px 0 16px; }
+  .bvSimple { font-family: var(--body); font-size: 16px; font-weight: 600; line-height: 1.5; color: var(--ink); margin: 10px 0 16px; }
+
+  .bvEnergy { margin-bottom: 16px; }
+  .enHead { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; margin-bottom: 7px; }
+  .enHead span { font-family: var(--mono); font-size: 10px; letter-spacing: 2px; color: var(--faint); }
+  .enHead b { font-family: var(--body); font-size: 13px; font-weight: 700; color: var(--gold); text-align: right; }
+  .enBar { height: 8px; background: rgba(255,255,255,.06); border: 1px solid var(--line); border-radius: 99px; overflow: hidden; }
+  .enBar > i { display: block; height: 100%; width: 0%; border-radius: 99px; background: linear-gradient(90deg, #c43, var(--gold), var(--good)); transition: width .5s ease; }
+
+  .bvBrain { display: flex; gap: 12px; align-items: flex-start; background: rgba(123,97,255,.07); border: 1px solid rgba(150,120,255,.25); border-radius: 12px; padding: 13px 14px; margin-bottom: 16px; }
+  .bvBrain .brIcon { font-size: 22px; line-height: 1.2; }
+  .bvBrain span { font-family: var(--mono); font-size: 10px; letter-spacing: 2px; color: #b9a6ff; display: block; margin-bottom: 4px; }
+  .bvBrain p { font-family: var(--body); font-size: 14px; line-height: 1.55; color: #e7e1f5; }
+
+  .bvInside { font-family: var(--body); font-size: 14px; line-height: 1.6; color: var(--muted); margin: 0 0 16px; }
   .bvEffects { list-style: none; display: flex; flex-direction: column; gap: 8px; margin-bottom: 18px; }
   .bvEffects li { font-family: var(--body); font-size: 14px; color: var(--muted); padding-left: 22px; position: relative; }
   .bvEffects li::before { content: '✦'; position: absolute; left: 0; color: var(--gold); }
@@ -330,6 +347,7 @@
   .ba b { font-family: var(--body); font-size: 13px; font-weight: 700; line-height: 1.4; }
   .ba.before b { color: var(--muted); } .ba.after b { color: var(--good); }
   .baArrow { display: flex; align-items: center; color: var(--ember); font-size: 22px; }
+  .bvTip { margin-top: 14px; font-family: var(--body); font-size: 13.5px; line-height: 1.5; color: #bfe3f7; background: rgba(59,169,232,.07); border: 1px solid rgba(59,169,232,.28); border-radius: 12px; padding: 12px 14px; }
 
   .bvFooter { margin-top: 18px; border-top: 1px solid var(--line); padding-top: 14px; }
   .bvFooter p { font-family: var(--body); font-size: 13px; line-height: 1.6; color: var(--muted); max-width: 820px; }
@@ -403,6 +421,10 @@
       <button class="bvClose" id="bvClose">✕</button>
     </div>
 
+    <div class="bvIntro">
+      <b>How fasting works:</b> ① Your body burns the sugar from your food first. ② Around 12h that sugar runs out, so it switches to burning your stored fat. ③ With no food coming in, it starts cleaning house — recycling old, damaged cells. The longer you go, the deeper the clean-out.
+    </div>
+
     <div class="bvGrid">
       <!-- human figure -->
       <div class="figureWrap">
@@ -447,13 +469,28 @@
       <div class="bvPanel">
         <div class="bvTimeline" id="bvTimeline"></div>
         <div class="bvStageName" id="bvStageName">—</div>
+        <div class="bvSimple" id="bvSimple">—</div>
+
+        <div class="bvEnergy">
+          <div class="enHead"><span>ENERGY LEVEL</span><b id="bvEnergyLabel">—</b></div>
+          <div class="enBar"><i id="bvEnergyFill"></i></div>
+        </div>
+
+        <div class="bvBrain">
+          <div class="brIcon">🧠</div>
+          <div><span>YOUR BRAIN</span><p id="bvBrain">—</p></div>
+        </div>
+
         <div class="bvInside" id="bvInside">—</div>
         <ul class="bvEffects" id="bvEffects"></ul>
+
         <div class="bvBA">
           <div class="ba before"><span>BEFORE</span><b id="bvBefore">—</b></div>
           <div class="baArrow">→</div>
           <div class="ba after"><span>AFTER</span><b id="bvAfter">—</b></div>
         </div>
+
+        <div class="bvTip" id="bvTip">💡 —</div>
       </div>
     </div>
 
@@ -937,26 +974,50 @@
   // ============ BODY / INSIDE YOU ============
   const BODY_STAGES = [
     { at:0,  label:'0–12h', name:'Running on food', zones:['gut','liver','heart'], shrink:false, auto:false,
-      inside:"You're still burning the food you ate and the sugar (glycogen) stored in your liver. Insulin is high — fat storage mode.",
+      simple:"You're still running on the food you ate. Business as usual.",
+      energy:3, energyLabel:'Normal',
+      brain:"Brain running on sugar as usual — nothing different yet.",
+      tip:"Finished your last meal? Start sipping water now.",
+      inside:"You're still burning the food you ate and the sugar (glycogen) stored in your liver. Insulin is high — fat-storage mode.",
       effects:['Digestion finishing up','Liver glycogen burned for energy','Insulin still elevated'],
       before:'Fuelled by food + stored sugar', after:'Sugar tank starting to drain' },
     { at:12, label:'12–16h', name:'Fat-burning switch', zones:['fat','liver','brain'], shrink:true, auto:false,
+      simple:"The easy fuel (sugar) is running out, so your body starts burning fat instead.",
+      energy:2, energyLabel:'A bit flat (the switch-over slump)',
+      brain:"Liver starts making ketones — a cleaner fuel your brain loves. Mild fog while it switches over is normal.",
+      tip:"Feeling flat is normal — push through, don't snack. Black coffee or tea is fine.",
       inside:"Sugar stores run low, so your body flips to burning fat. The liver starts making ketones — clean fuel your brain runs great on.",
       effects:['Fat cells release stored energy','Liver produces ketones','Steadier energy, fewer crashes'],
       before:'Sugar-burner', after:'Fat-burner — ketosis beginning' },
     { at:16, label:'16–24h', name:'Autophagy switches ON', zones:['cells','brain'], shrink:true, auto:true,
-      inside:"Autophagy literally means “self-eating.” Your cells start breaking down and recycling their own worn-out, damaged parts — internal spring cleaning.",
+      simple:"Out of easy fuel, your body starts eating its own old, broken bits to clean itself up.",
+      energy:3, energyLabel:'Climbing back up',
+      brain:"Your brain cells start their own clean-up (neuronal autophagy), clearing out junk proteins.",
+      tip:"Dizzy or headachy? It's usually low salt — water + a pinch of salt, not food.",
+      inside:"Autophagy literally means “self-eating.” Your cells break down and recycle their own worn-out, damaged parts — internal spring cleaning.",
       effects:['Damaged cell parts recycled','Old / dysfunctional components cleared','Brain cells (neuronal autophagy) join in'],
       before:'Cells clogged with damaged parts', after:'Cells recycling & cleaning themselves' },
     { at:24, label:'24h', name:'One day — HGH surge', zones:['muscle','fat'], shrink:true, auto:false,
+      simple:"A full day in — your body is now a fat-burning machine and protects your muscle.",
+      energy:4, energyLabel:'Sharp & clear',
+      brain:"Ketones flowing — focus often sharpens. BDNF (a 'fertilizer' for memory & new brain cells) is rising.",
+      tip:"Keep water + electrolytes going. Light walks feel good; skip hard workouts.",
       inside:"Insulin hits its lowest point and growth hormone surges (up to ~20× in men) — protecting your muscle while you torch fat.",
       effects:['Growth hormone spikes','Muscle protected from breakdown','Deep, efficient fat-burning'],
       before:'Higher insulin, low fat-burn', after:'Max fat-burn, muscle-sparing' },
     { at:48, label:'48h', name:'Deep clean', zones:['cells','blood'], shrink:true, auto:true,
+      simple:"Deep cleaning mode. Your body is recycling damaged, aged cells in bulk.",
+      energy:3, energyLabel:'Calm & steady (clear mind, weaker body)',
+      brain:"Steady ketone fuel — many people feel calm and clear-headed here.",
+      tip:"Top up electrolytes (salt, potassium, magnesium). Move slowly when standing.",
       inside:"Autophagy ramps up further and inflammation starts dropping. Your body recycles damaged and aged cells in bulk.",
       effects:['Autophagy intensifies','Inflammation markers fall','Old / damaged cells broken down'],
       before:'Inflamed, sluggish cells', after:'Leaner, cleaner cell population' },
     { at:72, label:'72h', name:'Immune reset', zones:['blood','cells'], shrink:true, auto:true,
+      simple:"The big one — your body clears out tired immune cells so it can build fresh ones when you eat again.",
+      energy:3, energyLabel:'Light & calm — low body, clear head',
+      brain:"Cleaner fuel + cellular clean-up: the brain-protective effects researchers study are in full swing.",
+      tip:"Almost there. When you break it, go SLOW — broth first — to avoid refeeding issues.",
       inside:"In Longo’s USC research, ~72h of fasting recycles old and damaged immune cells. When you refeed, stem cells fire up and rebuild a fresh immune system.",
       effects:['Old / damaged immune cells cleared','IGF-1 & PKA drop — the regeneration signal','Refeeding → stem cells build new immune cells'],
       before:'Aged, damaged immune cells', after:'Primed to rebuild a fresh immune system' },
@@ -988,10 +1049,15 @@
     figure.classList.toggle('autophagy', s.auto);
     // text
     $('bvStageName').textContent = s.name;
+    $('bvSimple').textContent = s.simple;
+    $('bvEnergyLabel').textContent = s.energyLabel;
+    $('bvEnergyFill').style.width = (s.energy / 5 * 100) + '%';
+    $('bvBrain').textContent = s.brain;
     $('bvInside').textContent = s.inside;
     $('bvEffects').innerHTML = s.effects.map(e => `<li>${e}</li>`).join('');
     $('bvBefore').textContent = s.before;
     $('bvAfter').textContent = s.after;
+    $('bvTip').textContent = '💡 ' + s.tip;
     // timeline buttons
     const cur = currentStageIdx();
     document.querySelectorAll('#bvTimeline button').forEach((b,i) => {
