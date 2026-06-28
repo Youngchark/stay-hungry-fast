@@ -541,9 +541,6 @@
     ],
   };
 
-  // Who is in the competition (always shown on the board)
-  const ROSTER = ["Tomai", "Mako"];
-
   // ---------- LINES ----------
   const harsh = [
     "Put it down, fatty.",
@@ -700,7 +697,7 @@
   // ============ SCOREBOARD ============
   function renderBoard() {
     const now = Date.now();
-    const names = Array.from(new Set([...ROSTER, ...Object.keys(remote), me.name]));
+    const names = Array.from(new Set([...Object.keys(remote), me.name]));
     const rows = names.map(name => {
       let data = null;
       if (name === me.name) data = { start: me.start, cravings: me.cravings.length, seen: now };
