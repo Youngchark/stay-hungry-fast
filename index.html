@@ -562,8 +562,7 @@
     key: "",                          // <-- paste your ElevenLabs API key here
     model: "eleven_turbo_v2_5",
     voices: [
-      { label: "UK girl (Alice)",  id: "Xb7hH8MSUJpSbSDYk0k2" },
-      { label: "UK guy (George)",  id: "JBFqnCBsd6RMkjVDRZzb" },
+      { label: "US girl (Rachel)", id: "21m00Tcm4TlvDq8ikWAM" },
     ],
   };
 
@@ -864,20 +863,18 @@
 
   // ============ VOICE ============
   let voices = [], voiceIdx = 0;
-  const shortName = v => v.name.replace(/\(.*?\)/g,'').replace(/(Google|Microsoft|Apple)/gi,'').trim() || v.name;
-  function findVoice(all, pats){ for (const re of pats){ const gb=all.find(v=>re.test(v.name)&&/gb/i.test(v.lang)); if(gb)return gb; const any=all.find(v=>re.test(v.name)); if(any)return any; } return null; }
+  // Pick a single US English FEMALE system voice.
+  function findVoice(all, pats){ for (const re of pats){ const us=all.find(v=>re.test(v.name)&&/us/i.test(v.lang)); if(us)return us; const any=all.find(v=>re.test(v.name)); if(any)return any; } return null; }
   function loadVoices() {
     const all = window.speechSynthesis ? window.speechSynthesis.getVoices() : [];
     if (!all.length) return;
-    const f = findVoice(all, [/Google UK English Female/i,/Sonia/i,/Libby/i,/Kate/i,/Serena/i,/Stephanie/i,/Hazel/i,/Martha/i]);
-    const m = findVoice(all, [/Google UK English Male/i,/Daniel/i,/Arthur/i,/Ryan/i,/Oliver/i,/George/i]);
-    const gb = all.filter(v=>/gb/i.test(v.lang)), en = all.filter(v=>/^en/i.test(v.lang));
-    voices = [f,m].filter(Boolean);
-    if (!voices.length) voices = (gb.length?gb:en).slice(0,2);
-    if (!voices.length) voices = all.slice(0,2);
-    const saved = localStorage.getItem('voiceName');
-    const si = voices.findIndex(v=>v.name===saved); voiceIdx = si>=0?si:0;
-    pickBtn.textContent = 'VOICE: ' + (voices[voiceIdx]?shortName(voices[voiceIdx]):'default');
+    const f = findVoice(all, [/Google US English/i,/Samantha/i,/Aria/i,/Jenny/i,/Ava/i,/Allison/i,/Susan/i,/Nicky/i,/Zoe/i,/Karen/i]);
+    const us = all.filter(v=>/en[-_ ]?US/i.test(v.lang)), en = all.filter(v=>/^en/i.test(v.lang));
+    voices = [f].filter(Boolean);
+    if (!voices.length) voices = (us.length?us:en).slice(0,1);
+    if (!voices.length) voices = all.slice(0,1);
+    voiceIdx = 0;
+    pickBtn.textContent = 'VOICE: US GIRL';
   }
   if ('speechSynthesis' in window) { loadVoices(); window.speechSynthesis.onvoiceschanged = loadVoices; }
 
@@ -948,18 +945,7 @@
   btn.addEventListener('click', hit);
 
   voiceBtn.addEventListener('click', () => { voiceOn=!voiceOn; voiceBtn.classList.toggle('on',voiceOn); voiceBtn.textContent=voiceOn?'🔊 ON':'🔇 OFF'; if(!voiceOn){window.speechSynthesis.cancel(); if(curAudio)curAudio.pause();} });
-  pickBtn.addEventListener('click', () => {
-    if (elevenOn()) {
-      elevenIdx = (elevenIdx + 1) % ELEVEN.voices.length;
-      pickBtn.textContent = 'VOICE: ' + ELEVEN.voices[elevenIdx].label;
-    } else {
-      if(!voices.length)return;
-      voiceIdx=(voiceIdx+1)%voices.length;
-      localStorage.setItem('voiceName',voices[voiceIdx].name);
-      pickBtn.textContent='VOICE: '+shortName(voices[voiceIdx]);
-    }
-    speak("This is what I sound like.");
-  });
+  pickBtn.addEventListener('click', () => { speak("This is what I sound like."); });
   modeBtn.addEventListener('click', () => { mode = mode==='mix'?'harsh':mode==='harsh'?'hype':'mix'; modeBtn.textContent='MODE: '+(mode==='mix'?'MIX':mode==='harsh'?'HARSH':'HYPE'); });
 
   // long-press timer = reset
